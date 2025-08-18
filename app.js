@@ -7,17 +7,17 @@ function agregarAmigo() {
     
     if (nombre === '') {
         alert('Por favor, ingresa un nombre válido.');
-        limpiarCaja();
+        limpiarCaja('#amigo');
         return;
     } else if (amigos.includes(nombre)) {
         alert('Este nombre ya fue ingresado. Si tenes 2 o más amigos con el mismo nombre por favor diferencialos.');
-        limpiarCaja();
+        limpiarCaja('#amigo');
         return;
     } else {
         amigos.push(nombre);
         imprimirUnaLista('listaAmigos', amigos);
         capitalizar('listaAmigos');
-    limpiarCaja();
+        limpiarCaja('#amigo');
     }
     console.log(amigos);
     return;
@@ -32,11 +32,39 @@ function imprimirUnaLista(id, lista) {
         return;
 }
 
+function indiceAleatorio(lista) {
+    let indice = Math.floor(Math.random() * lista.length);
+    return lista[indice];
+}
+
+function sortearAmigo() {
+    let listaAmigos = document.getElementById('resultado');
+    if (amigos.length < 2) {
+        alert('Por favor, ingresa al menos dos amigos para sortear.');
+        return;
+    } else {
+        listaAmigos.innerHTML = `El amigo secreto es: <strong>${indiceAleatorio(amigos)}</strong>`;
+        capitalizar('resultado');
+        finalizar();
+        return;
+    }
+}
+
+
 function capitalizar(id) {
     const elemento = document.getElementById(id);
     elemento.style.textTransform = 'capitalize';
 }
 
-function limpiarCaja() {
-    document.querySelector('#amigo').value = '';   
+function limpiarCaja(id) {
+    document.querySelector(id).value = '';   
 }
+
+
+function finalizar() {
+    document.getElementById('amigo').value = '';
+    document.getElementById('listaAmigos').innerHTML = '';
+    amigos = [];
+    return;
+}
+
